@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import forms
 
 app=Flask(__name__)
 
@@ -6,11 +7,12 @@ app=Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route("/alumnos")
+@app.route("/alumnos", methods=['GET', 'POST'])
 def alumnos():
-    titulo="UTL!!!"
-    nombres=["mario", "pedro", "juan", "dario"]
-    return render_template("alumnos.html", titulo=titulo, nombres=nombres)
+    alumno_clase = forms.UserForm(request.form)
+    if request.method=='POST':
+        pass
+    return render_template("alumnos.html", form=alumno_clase)
 
 @app.route("/maestros")
 def maestros():
@@ -44,6 +46,34 @@ def func2(n1,n2):
 @app.route("/default/<string:d>")
 def func3(d="Dario"):
     return "El nombre de user es: " + d
+
+@app.route("/calcular", methods=["GET", "POST"])
+def calcular():
+    if request.method=="POST":
+        num1=request.form.get("n1")
+        num2=request.form.get("n2")
+        return "La multiplicacion de {} x {} = {}".format(num1,num2,str(int(num1)*int(num2)))
+    else:
+        return '''
+        <form action="/calcular" method="POST">
+            <label id="n1">N1:</label>
+            <input type="text" name="n1"><br>
+            <label id="n2">N2:</label>
+            <input type="text" name="n2"><br>
+            <input type="submit">
+        </form>
+        '''
+
+@app.route("/OperasBas")
+def operas():
+    return render_template("OperasBas.html")
+
+@app.route("/resultado")
+def result():
+    if request.method=="POST":
+        num1=request.form.get("n1")
+        num2=request.form.get("n2")
+        return "La multiplicacion de {} x {} = {}".format(num1,num2,str(int(num1)*int(num2)))
 
 if __name__ == "__main__":
     app.run(debug=True)
