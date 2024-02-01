@@ -10,9 +10,19 @@ def index():
 @app.route("/alumnos", methods=['GET', 'POST'])
 def alumnos():
     alumno_clase = forms.UserForm(request.form)
+    nom = ""
+    apa = ""
+    ama = ""
+    edad = None
     if request.method=='POST':
-        pass
-    return render_template("alumnos.html", form=alumno_clase)
+        nom=alumno_clase.nombre.data
+        apa=alumno_clase.apaterno.data
+        ama=alumno_clase.amaterno.data
+        edad=alumno_clase.edad.data
+        print('Nombre: {}'.format(nom))
+        print('apaterno: {}'.format(apa))
+        print('amaterno: {}'.format(ama))
+    return render_template("alumnos.html", form=alumno_clase, nom=nom, apa=apa, ama=ama, edad=edad)
 
 @app.route("/maestros")
 def maestros():
