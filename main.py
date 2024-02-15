@@ -14,7 +14,7 @@ def alumnos():
     apa = ""
     ama = ""
     edad = None
-    if request.method=='POST':
+    if request.method=='POST' and alumno_clase.validate():
         nom=alumno_clase.nombre.data
         apa=alumno_clase.apaterno.data
         ama=alumno_clase.amaterno.data
